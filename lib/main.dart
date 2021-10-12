@@ -1,6 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
+  SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent)
+  );
   runApp(const MyApp());
 }
 
@@ -12,17 +17,32 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         theme: ThemeData( // 这里就是参数
+          brightness: Brightness.light,
+          cupertinoOverrideTheme: const CupertinoThemeData(
+              brightness: Brightness.light
+          ),
           primaryColor: Colors.white,
         ),
-        home: WelCome());
+        initialRoute: "/", // 默认加载的界面，这里为RootPage
+        routes: { // 显式声明路由
+          "/": (context) => WelComePage(),
+          "/Login": (context) => LoginPage(),
+
+        }
+
+    );
   }
 
 
 }
 
-class WelCome extends StatelessWidget {
+
+class WelComePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Future.delayed(const Duration(milliseconds: 3000), () {
+      Navigator.pushNamed(context, '/Login');
+    });
     return Center(
       child: Container(
         height: 300,
@@ -32,3 +52,30 @@ class WelCome extends StatelessWidget {
     );
   }
 }
+
+
+class LoginPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+    width: double.infinity,
+    height: double.infinity,
+    alignment: Alignment.center,
+    decoration: const BoxDecoration(
+        image:  DecorationImage(
+          image: AssetImage("images/img_bg.png",),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Card(
+
+      ) ,
+
+
+
+
+    );
+  }
+
+}
+
