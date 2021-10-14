@@ -1,10 +1,18 @@
 import "package:flutter/material.dart";
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:thai59/page/product_page.dart';
 import 'package:thai59/utils/NColors.dart';
-import 'package:thai59/page/routes_path.dart';
 
-class NLoginPage extends StatelessWidget {
+class NLoginPage extends StatefulWidget {
+
+  static const String routeName = "/login";
+
+  @override
+  State<NLoginPage> createState() => _NLoginPageState();
+}
+
+class _NLoginPageState extends State<NLoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: HomeWidget());
@@ -97,42 +105,7 @@ class NCheckBoxState extends State<NContentBody> {
                         ])),
                       ],
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                          gradient: NColors.lg_bg,
-                          borderRadius: BorderRadius.circular(26)),
-                      margin: EdgeInsets.only(
-                        right: 30.w,
-                        left: 30.w,
-                        top: 40.h,
-                      ),
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 46.h,
-                        child: TextButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.transparent),
-                          ),
-                          onPressed: () {
-
-                            Fluttertoast.showToast(msg: '登录');
-
-                            Navigator.pushNamed(context, routes_path.product);
-
-
-                          },
-                          child: Text(
-                            "登录",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20.r),
-                          ),
-                        ),
-                      ),
-                    )
+                    buildButton(),
                   ],
                 ),
               ),
@@ -143,6 +116,48 @@ class NCheckBoxState extends State<NContentBody> {
     );
   }
 }
+
+class buildButton extends StatelessWidget {
+  const buildButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          gradient: NColors.lg_bg,
+          borderRadius: BorderRadius.circular(26)),
+      margin: EdgeInsets.only(
+        right: 30.w,
+        left: 30.w,
+        top: 40.h,
+      ),
+      alignment: Alignment.center,
+      child: SizedBox(
+        width: double.infinity,
+        height: 46.h,
+        child: TextButton(
+          style: ButtonStyle(
+            backgroundColor:
+            MaterialStateProperty.all(Colors.transparent),
+          ),
+          onPressed: () {
+            Fluttertoast.showToast(msg: '登录');
+            Navigator.pushNamed(context, NProductPage.routeName);
+          },
+          child: Text(
+            "登录",
+            style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 20.r),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
 
 class SimpleTextWidget extends StatelessWidget {
   final title;

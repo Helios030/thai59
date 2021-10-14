@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
   static const Color meetff = Color(0xFFFD7D63);
   static const Color pinkff = Color(0xFFFD696B);
   static const Color blue2a = Color(0xFF2A8DFF);
+  static const Color blue33 = Color(0x332089FF);
   static  LinearGradient lg_bg = const LinearGradient(
   begin: Alignment.centerLeft,
   end: Alignment.centerRight,

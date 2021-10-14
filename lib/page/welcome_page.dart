@@ -1,11 +1,12 @@
 import "package:flutter/material.dart";
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:thai59/page/routes_path.dart';
+import 'package:thai59/page/login_page.dart';
 
 var isFirst = true;
 
 class NWelComePage extends StatelessWidget {
 
+  static const String routeName = "/welcome";
 
 
   @override
@@ -22,7 +23,7 @@ class NWelComePage extends StatelessWidget {
       Future.delayed(const Duration(milliseconds: 3000), () {
 
         //判断是否需要登录
-        Navigator.pushNamed(context, routes_path.login);
+        Navigator.pushNamed(context, NLoginPage.routeName);
 
 
         isFirst = false;

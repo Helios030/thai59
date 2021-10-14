@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:thai59/page/routes_path.dart';
 import 'package:thai59/page/page_util.dart';
 
@@ -16,6 +17,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return MaterialApp(
           theme: ThemeData( // 这里就是参数
           primaryColor: Colors.white,
@@ -24,9 +28,17 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: "/", // 默认加载的界面，这里为RootPage
         routes: { // 显式声明路由
-          routes_path.def: (context) => NWelComePage(),
-          routes_path.login: (context) => NLoginPage(),
-          routes_path.product: (context) => NProductPage(),
+
+          // routes_path.def: (context) => NWelComePage(),
+          NLoginPage.routeName: (context) => NLoginPage(),
+          NProductPage.routeName: (context) => NProductPage(),
+
+          //test
+          "/": (context) => NUserPage(),
+
+
+
+
         }
     );
   }
