@@ -42,38 +42,20 @@ class NCheckBoxState extends State<NContentBody> {
   var isCheck = false;
   TextEditingController phoneController = TextEditingController();
   TextEditingController codeController = TextEditingController();
-
   var count = S.current.getVCode;
   late Timer timer;
   var currTime = 60;
 
   @override
-  void initState() {
-
-
-    dispose() {
-      super.dispose();
-      timer.cancel();
-    }
-
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-          image: AssetImage(R.assetsImagesImgBg),
-          fit: BoxFit.cover, /* 完全填充*/
-        )),
+        decoration: BoxDecoration(image: DecorationImage(image: AssetImage(R.assetsImagesImgBg), fit: BoxFit.cover, /* 完全填充*/)),
         child: Align(
           child: Padding(
             padding: EdgeInsets.only(top: 100),
             child: Container(
-              decoration: BoxDecoration(
-                  color: getPrimaryColor(context),
-                  borderRadius: BorderRadius.all(Radius.circular(12.r))),
+              decoration: BoxDecoration(color: getPrimaryColor(context), borderRadius: BorderRadius.all(Radius.circular(12.r))),
               width: 335.w,
               height: 362.h,
               child: Padding(
@@ -83,11 +65,8 @@ class NCheckBoxState extends State<NContentBody> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SimpleTextWidget(S.current.phone_number),
-                    SimpleTextFieldWidget(
-                        S.of(context).plese_input, phoneController),
-                    SizedBox(
-                      height: 20.r,
-                    ),
+                    SimpleTextFieldWidget(S.of(context).plese_input, phoneController),
+                    SizedBox(height: 20.r,),
                     SimpleTextWidget(S.of(context).vCode),
                     Stack(
                       alignment: AlignmentDirectional.bottomEnd,
@@ -103,8 +82,10 @@ class NCheckBoxState extends State<NContentBody> {
                               currTime--;
                               count="$currTime s";
                               if (currTime == 0) {
-                                timer.cancel;
                                 count=S.current.getVCode;
+
+                                timer.cancel();
+
                               }
                               setState(() { });
                             });
