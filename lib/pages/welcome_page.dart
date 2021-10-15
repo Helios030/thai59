@@ -1,12 +1,15 @@
 import "package:flutter/material.dart";
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:thai59/page/login_page.dart';
+import 'package:thai59/pages/login/login_page.dart';
+import 'package:thai59/r.dart';
+
+
 
 var isFirst = true;
 
 class NWelComePage extends StatelessWidget {
 
-  static const String routeName = "/welcome";
+  static const String routeName = "/";
 
 
   @override
@@ -21,11 +24,8 @@ class NWelComePage extends StatelessWidget {
 
     if (isFirst) {
       Future.delayed(const Duration(milliseconds: 3000), () {
-
         //判断是否需要登录
         Navigator.pushNamed(context, NLoginPage.routeName);
-
-
         isFirst = false;
       });
     }
@@ -35,7 +35,7 @@ class NWelComePage extends StatelessWidget {
         child: Container(
           height: 300.w,
           width: 280.h,
-          child: Image.asset("images/img_welcome.png"),
+          child: Image.asset(R.assetsImagesImgWelcome),
         ),
       ),
     );

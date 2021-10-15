@@ -1,0 +1,11 @@
+{
+
+  "phone_number":"电话号码",
+  "plese_input": "请输入",
+  "vCode": "验证码",
+  "getVCode": "获取验证码",
+  "code_send_success": "验证码发送成功",
+  "login": "登录",
+  "pp": "《隐私政策》",
+  "rade_success": "我已仔细阅读并同意遵守:"
+}

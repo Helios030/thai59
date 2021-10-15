@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:thai59/utils/NColors.dart';
+import 'package:thai59/r.dart';
 
 
 
@@ -29,7 +30,9 @@ class UserWidget extends StatelessWidget  {
   @override
   Widget build(BuildContext context) {
    return Container(
-       decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('images/img_bg.png'), fit: BoxFit.cover, /* 完全填充*/)),
+       decoration: const BoxDecoration(image: DecorationImage(
+         image: AssetImage(R.assetsImagesImgBg),
+         fit: BoxFit.cover, /* 完全填充*/)),
        child: Align(
          child: Padding(
            padding: const EdgeInsets.only(top: 100),

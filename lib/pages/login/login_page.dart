@@ -1,12 +1,17 @@
+import 'dart:async';
+
 import "package:flutter/material.dart";
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:thai59/page/product_page.dart';
+import 'package:thai59/generated/l10n.dart';
+import 'package:thai59/pages/product_page.dart';
+import 'package:thai59/service/login_request.dart';
 import 'package:thai59/utils/NColors.dart';
+import 'package:thai59/r.dart';
+import 'package:thai59/utils/expand_util.dart';
 
 class NLoginPage extends StatefulWidget {
-
-  static const String routeName = "/login";
+  static String routeName = "/login";
 
   @override
   State<NLoginPage> createState() => _NLoginPageState();
@@ -35,19 +40,36 @@ class NContentBody extends StatefulWidget {
 
 class NCheckBoxState extends State<NContentBody> {
   var isCheck = false;
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController codeController = TextEditingController();
+
+  var count = S.current.getVCode;
+  late Timer timer;
+  var currTime = 60;
+
+  @override
+  void initState() {
+
+
+    dispose() {
+      super.dispose();
+      timer.cancel();
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
             image: DecorationImage(
-          image: AssetImage('images/img_bg.png'),
+          image: AssetImage(R.assetsImagesImgBg),
           fit: BoxFit.cover, /* 完全填充*/
         )),
         child: Align(
           child: Padding(
-            padding: const EdgeInsets.only(top: 100),
+            padding: EdgeInsets.only(top: 100),
             child: Container(
               decoration: BoxDecoration(
                   color: getPrimaryColor(context),
@@ -60,23 +82,47 @@ class NCheckBoxState extends State<NContentBody> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const  SimpleTextWidget("电话号码"),
-                    const SimpleTextFieldWidget("请输入"),
+                    SimpleTextWidget(S.current.phone_number),
+                    SimpleTextFieldWidget(
+                        S.of(context).plese_input, phoneController),
                     SizedBox(
                       height: 20.r,
                     ),
-                    const SimpleTextWidget("验证码"),
+                    SimpleTextWidget(S.of(context).vCode),
                     Stack(
                       alignment: AlignmentDirectional.bottomEnd,
                       children: [
-                        const SimpleTextFieldWidget("请输入"),
+                        SimpleTextFieldWidget(
+                            S.of(context).plese_input, codeController),
                         // Row(children: [TextField()],),
                         TextButton(
-                          child: const Text("获取验证码",
+                          child: Text(count,
                               style: TextStyle(color: Color(0xFFFD696B))),
                           onPressed: () {
-                            print("按钮点击事件");
-                            Fluttertoast.showToast(msg: '验证码发送成功');
+                         timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+                              currTime--;
+                              count="$currTime s";
+                              if (currTime == 0) {
+                                timer.cancel;
+                                count=S.current.getVCode;
+                              }
+                              setState(() { });
+                            });
+
+
+                            String text = phoneController.text;
+                            if (text == "") {
+                              toast(S.of(context).plese_input);
+                            } else {
+                              Map<String, String> dataMap = {};
+                              dataMap["phone"] = text;
+                              dataMap["type"] = "2";
+                              LoginRequest.sendCode(dataMap).then((value) {
+                                if (value != null) {
+                                  toast(S.of(context).send_success);
+                                }
+                              });
+                            }
                           },
                         )
                       ],
@@ -93,13 +139,13 @@ class NCheckBoxState extends State<NContentBody> {
                                 isCheck = value!;
                               });
                             }),
-                        const Text.rich(TextSpan(children: [
+                        Text.rich(TextSpan(children: [
                           TextSpan(
-                              text: "我已仔细阅读并同意遵守:",
+                              text: S.of(context).rade_success,
                               style: TextStyle(
                                   fontSize: 12, color: NColors.black30)),
                           TextSpan(
-                              text: "《隐私政策》",
+                              text: S.of(context).pp,
                               style: TextStyle(
                                   fontSize: 12, color: NColors.blue2a)),
                         ])),
@@ -118,14 +164,13 @@ class NCheckBoxState extends State<NContentBody> {
 }
 
 class buildButton extends StatelessWidget {
-  const buildButton({Key? key}) : super(key: key);
+  buildButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          gradient: NColors.lg_bg,
-          borderRadius: BorderRadius.circular(26)),
+          gradient: NColors.lg_bg, borderRadius: BorderRadius.circular(26)),
       margin: EdgeInsets.only(
         right: 30.w,
         left: 30.w,
@@ -137,15 +182,14 @@ class buildButton extends StatelessWidget {
         height: 46.h,
         child: TextButton(
           style: ButtonStyle(
-            backgroundColor:
-            MaterialStateProperty.all(Colors.transparent),
+            backgroundColor: MaterialStateProperty.all(Colors.transparent),
           ),
           onPressed: () {
-            Fluttertoast.showToast(msg: '登录');
+            Fluttertoast.showToast(msg: S.of(context).login);
             Navigator.pushNamed(context, NProductPage.routeName);
           },
           child: Text(
-            "登录",
+            S.of(context).login,
             style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -157,12 +201,10 @@ class buildButton extends StatelessWidget {
   }
 }
 
-
-
 class SimpleTextWidget extends StatelessWidget {
-  final title;
+  final String title;
 
-  const SimpleTextWidget(this.title, {Key? key}) : super(key: key);
+  SimpleTextWidget(this.title);
 
   @override
   Widget build(BuildContext context) {
@@ -176,13 +218,15 @@ class SimpleTextWidget extends StatelessWidget {
 
 class SimpleTextFieldWidget extends StatelessWidget {
   final hint;
+  final phoneController;
 
-  const SimpleTextFieldWidget(this.hint, {Key? key}) : super(key: key);
+  SimpleTextFieldWidget(this.hint, this.phoneController);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
         maxLines: 1,
+        controller: phoneController,
         decoration: InputDecoration(
           hintText: hint,
           enabledBorder: UnderlineInputBorder(
